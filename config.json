@@ -1,0 +1,6 @@
+{
+    "DataBase": {
+        "Driver": "mysql",
+        "Source": "root:xxx@tcp(0.0.0.0:3000)/test?charset=utf8&parseTime=True&loc=Local"
+    }
+}

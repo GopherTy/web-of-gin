@@ -6,7 +6,7 @@ import (
 
 // Product table
 type Product struct {
-	gorm.Model
-	Code  string
-	Price uint
+	gorm.Model // gorm 的默认会创建的结构
+	Code       string
+	Price      uint
 }
