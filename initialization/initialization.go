@@ -4,42 +4,24 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"web-of-gin/config"
 
 	"github.com/jinzhu/gorm"
 )
 
-// Config 全局JSON配置对象
-type Config struct {
-	DataBase DataBase
-}
-
-// DataBase 数据库配置配置
-type DataBase struct {
-	Driver string
-	Source string
-}
-
-// Manager 初始化对象
-type Manager struct {
-	config *Config  // 全局配置对象
-	db     *gorm.DB // 数据库对象
-}
-
-var _manager Manager // 全局对象
-
-// Single 获取单个 Manager 对象
-func Single() Manager {
-	return _manager
-}
+var db *gorm.DB // gorm 数据库对象
 
 // Init 初始化数据库
-func (m *Manager) Init() {
-	b, err := ioutil.ReadFile("./config.json")
+func Init() {
+	cfg := config.Configure()
+	basePath := cfg.BasePath()
+
+	// 读取配置文件
+	b, err := ioutil.ReadFile(basePath + "/config.json")
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	cfg := &Config{}
 	err = json.Unmarshal(b, cfg)
 	if err != nil {
 		log.Fatalln(err)
@@ -50,22 +32,18 @@ func (m *Manager) Init() {
 		log.Fatalln("Please configure database dirver or source")
 	}
 
-	tmpDB, err := gorm.Open(cfg.DataBase.Driver, cfg.DataBase.Source)
+	db, err = gorm.Open(cfg.DataBase.Driver, cfg.DataBase.Source)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	defer tmpDB.Close()
 
-	m.db = tmpDB
-	m.config = cfg
+	// 是否开启 SQL 日志
+	if cfg.DataBase.ShowSQL {
+		db.LogMode(true)
+	}
 }
 
-// DB 获取数据库对象
-func (m *Manager) DB() *gorm.DB {
-	return m.db
-}
-
-// Configure 获取 json 对象
-func (m *Manager) Configure() *Config {
-	return m.config
+// DB gorm 数据操作对象
+func DB() *gorm.DB {
+	return db
 }

@@ -1,3 +1,2 @@
-# bin/bash
-
-go build -o ./bin/web-server main.go 
+#!/bin/bash 
+go build -o ./bin/web-server main.go
