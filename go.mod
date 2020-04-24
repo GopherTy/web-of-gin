@@ -1,4 +1,4 @@
-module github.com/web-of-gin
+module web-of-gin
 
 go 1.12
 
