@@ -1,4 +1,4 @@
-package login
+package users
 
 // UserLoginLog  用户登录系统日志表
 type UserLoginLog struct {

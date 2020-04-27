@@ -1,4 +1,4 @@
-package login
+package users
 
 import "time"
 

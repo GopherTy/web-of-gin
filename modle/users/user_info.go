@@ -1,4 +1,4 @@
-package login
+package users
 
 // UserInfo 用户信息表
 type UserInfo struct {
