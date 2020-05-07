@@ -1,7 +1,7 @@
 package main
 
 import (
-	"web-of-gin/func/login"
+	"web-of-gin/control"
 	"web-of-gin/initialization"
 	"web-of-gin/router"
 
@@ -19,7 +19,7 @@ func main() {
 	engine := gin.Default()
 
 	var r router.Router
-	r.Regist("/ping", router.MethodFunc{Method: "get", Function: login.Login}) // 注册路由
+	r.Regist("/ping", router.MethodFunc{Method: "get", Function: control.Login}) // 注册路由
 
 	r.Init(engine)
 	engine.Run(":8080")

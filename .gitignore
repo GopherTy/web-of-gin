@@ -1,2 +1,2 @@
-/bin
-/vendor
+bin/web-server*
+vendor

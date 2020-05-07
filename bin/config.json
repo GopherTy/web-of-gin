@@ -1,0 +1,10 @@
+{
+    "DataBase": {
+        "Driver": "mysql",
+        "Source": "root:123456@tcp(0.0.0.0:3000)/test?charset=utf8&parseTime=True&loc=Local",
+        "ShowSQL": true,
+        "MaxOpenConns": 0,
+        "MaxIdleConns": 0,
+        "Cached": 0
+    }
+}

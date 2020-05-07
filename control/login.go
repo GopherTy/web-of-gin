@@ -1,10 +1,10 @@
-package login
+package control
 
 import (
 	"fmt"
 	"net/http"
 	"web-of-gin/initialization"
-	"web-of-gin/modle/users"
+	"web-of-gin/model/users"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,4 +17,5 @@ func Login(c *gin.Context) {
 	db.First(&user)
 
 	c.JSON(http.StatusOK, user)
+
 }
