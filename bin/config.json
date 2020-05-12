@@ -1,10 +1,16 @@
 {
-    "DataBase": {
+    "DB": {
         "Driver": "mysql",
-        "Source": "root:123456@tcp(0.0.0.0:3000)/test?charset=utf8&parseTime=True&loc=Local",
+        "Source": "root:123456@tcp(185.194.148.236:3306)/gopherty?charset=utf8",
         "ShowSQL": true,
-        "MaxOpenConns": 0,
-        "MaxIdleConns": 0,
-        "Cached": 0
+        "MaxOpenConns": 100,
+        "MaxIdleConns": 5,
+        "Cached": 200
+    },
+    "HTTP": {
+        "TLS": false,
+        "Address": ":8080",
+        "CertFile": "",
+        "KeyFile": ""
     }
 }
