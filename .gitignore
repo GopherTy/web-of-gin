@@ -17,3 +17,4 @@ vendor/
 # 自定义
 bin/web-server*
 bin/log
+bin/config.json
