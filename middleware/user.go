@@ -1,8 +1,46 @@
 package middleware
 
 import (
+	"web-of-gin/control"
+	"web-of-gin/model/users"
+
 	"github.com/gin-gonic/gin"
 )
+
+// UserManage 用户管理
+func UserManage() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctl control.Controller
+		db := ctl.DB()
+
+		exists, err := db.IsTableExist(&users.User{})
+		if err != nil {
+			c.Error(err)
+		}
+		if !exists {
+			db.CreateTables(&users.User{})
+		}
+
+		exists, err = db.IsTableExist(&users.UserInfo{})
+		if err != nil {
+			c.Error(err)
+		}
+		if !exists {
+			db.CreateTables(&users.UserInfo{})
+		}
+
+		exists, err = db.IsTableExist(&users.UserLoginLog{})
+		if err != nil {
+			c.Error(err)
+		}
+		if !exists {
+			db.CreateTables(&users.UserLoginLog{})
+		}
+
+		c.Set("result", "use user middleware success")
+		c.Next()
+	}
+}
 
 // UserAuthenticate 用户登录认证
 func UserAuthenticate() gin.HandlerFunc {

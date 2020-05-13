@@ -2,6 +2,7 @@ package router
 
 import (
 	"web-of-gin/control"
+	"web-of-gin/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,6 +16,8 @@ func (Router) Init(engine *gin.Engine) {
 	// 控制器
 	var ctl control.Controller
 
-	// 用户入口
-	engine.POST("/login", ctl.Login)
+	// 测试接口注册
+	engine.GET("/", ctl.Test)
+	// 启用了用户管理系统中间件，创建对应的表。
+	engine.GET("/user", middleware.UserManage(), ctl.UserMiddlewareTest)
 }

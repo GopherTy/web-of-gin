@@ -38,6 +38,7 @@ func Init() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
 	err = db.Ping()
 	if err != nil {
 		log.Fatalln(err)
@@ -58,10 +59,9 @@ func Init() {
 		cacher := xorm.NewLRUCacher(xorm.NewMemoryStore(), cfg.DB.Cached)
 		db.SetDefaultCacher(cacher)
 	}
-
 }
 
-// DB gorm 数据操作对象
+// DB xorm 数据操作对象
 func DB() *xorm.Engine {
 	return db
 }

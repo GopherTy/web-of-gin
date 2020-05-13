@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -21,15 +20,12 @@ func init() {
 
 // 项目入口
 func main() {
-	fmt.Println("step 0")
-
 	cfg := config.Configure()
 	path := cfg.BasePath() + "/"
 
-	var err error
 	// 设置 Gin 日志输出
 	if !utils.IsFileOrDirExists(path + "log") {
-		err = os.Mkdir(path+"log", os.ModePerm)
+		err := os.Mkdir(path+"log", os.ModePerm)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -39,10 +35,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	w := io.MultiWriter(f, os.Stdout)
-
-	gin.DefaultWriter = w
-
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 	engine := gin.Default()
 
 	// 路由功能注册
@@ -55,5 +48,4 @@ func main() {
 	} else {
 		engine.Run(cfg.HTTP.Address)
 	}
-
 }
