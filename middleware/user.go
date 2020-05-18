@@ -15,7 +15,7 @@ func UserManage() gin.HandlerFunc {
 
 		exists, err := db.IsTableExist(&users.User{})
 		if err != nil {
-			c.Error(err)
+			c.AbortWithError(500, err)
 		}
 		if !exists {
 			db.CreateTables(&users.User{})
@@ -23,7 +23,7 @@ func UserManage() gin.HandlerFunc {
 
 		exists, err = db.IsTableExist(&users.UserInfo{})
 		if err != nil {
-			c.Error(err)
+			c.AbortWithError(500, err)
 		}
 		if !exists {
 			db.CreateTables(&users.UserInfo{})
@@ -31,14 +31,17 @@ func UserManage() gin.HandlerFunc {
 
 		exists, err = db.IsTableExist(&users.UserLoginLog{})
 		if err != nil {
-			c.Error(err)
+			c.AbortWithError(500, err)
 		}
 		if !exists {
 			db.CreateTables(&users.UserLoginLog{})
 		}
 
-		c.Set("result", "use user middleware success")
+		// before
+
 		c.Next()
+
+		//after 在中间件调用了处理函数之后，就会在此处调用
 	}
 }
 
