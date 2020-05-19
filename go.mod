@@ -10,5 +10,6 @@ require (
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/lib/pq v1.1.1 // indirect
 	github.com/mattn/go-sqlite3 v2.0.1+incompatible // indirect
+	go.uber.org/zap v1.15.0
 	golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd // indirect
 )

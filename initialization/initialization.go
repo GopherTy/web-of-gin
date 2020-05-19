@@ -2,36 +2,50 @@ package initialization
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"web-of-gin/config"
+
+	"go.uber.org/zap"
 
 	"github.com/go-xorm/xorm"
 )
 
-var db *xorm.Engine // xorm 数据库对象
+var (
+	logger *zap.Logger  // zap包中的日志对象
+	db     *xorm.Engine // xorm 数据库对象
+)
 
-// Init 初始化数据库
+// InitObj 用于获取初始化函数完成后单一对象
+type InitObj struct {
+}
+
+// Init 初始化数据库对象和日志对象
 func Init() {
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
-
 	cfg := config.Configure()
 	basePath := cfg.BasePath()
 
 	// 读取配置文件
 	b, err := ioutil.ReadFile(basePath + "/config.json")
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
+		os.Exit(1)
 	}
 
 	err = json.Unmarshal(b, cfg)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
+		os.Exit(1)
 	}
+
+	// 初始化日志对象
 
 	// 检查数据库配置内容是否为空。
 	if cfg.DB.Driver == "" || cfg.DB.Source == "" {
-		log.Fatalln("Please configure database dirver or source")
+		fmt.Println("Please configure database dirver or source")
+		os.Exit(1)
 	}
 
 	db, err = xorm.NewEngine(cfg.DB.Driver, cfg.DB.Source)
@@ -62,6 +76,11 @@ func Init() {
 }
 
 // DB xorm 数据操作对象
-func DB() *xorm.Engine {
+func (InitObj) DB() *xorm.Engine {
 	return db
+}
+
+// Logger zap第三方库日志对象
+func (InitObj) Logger() *zap.Logger {
+	return logger
 }

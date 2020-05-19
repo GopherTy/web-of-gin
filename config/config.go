@@ -11,8 +11,9 @@ var config Config
 
 // Config 全局JSON配置对象
 type Config struct {
-	DB   DataBase // 配置文件数据库对象
-	HTTP HTTP     // HTTP 协议配置对象
+	DB     DataBase // 配置文件数据库对象
+	HTTP   HTTP     // HTTP 协议配置对象
+	Logger Logger   // Logger 配置对象
 }
 
 // BasePath  获取项目的绝对路径
@@ -50,6 +51,10 @@ type DataBase struct {
 	MaxIdleConns int // 数据库连接最大空闲数
 
 	Cached int // 缓存大小
+}
+
+// Logger 日志对象
+type Logger struct {
 }
 
 // Configure 获取单个配置对象
