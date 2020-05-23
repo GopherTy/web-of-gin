@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"net/http"
-	"web-of-gin/control"
+	"web-of-gin/db"
 	"web-of-gin/model/users"
 
 	"github.com/gin-gonic/gin"
@@ -11,8 +11,7 @@ import (
 // UserManage 用户管理
 func UserManage() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var ctl control.Controller
-		db := ctl.DB()
+		db := db.Engine()
 
 		exists, err := db.IsTableExist(&users.User{})
 		if err != nil {

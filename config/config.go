@@ -1,12 +1,14 @@
 package config
 
 import (
-	"log"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"os"
-	"os/exec"
-	"path/filepath"
+	"web-of-gin/utils"
 )
 
+// config  单例全局配置对象
 var config Config
 
 // Config 全局JSON配置对象
@@ -14,22 +16,6 @@ type Config struct {
 	DB     DataBase // 配置文件数据库对象
 	HTTP   HTTP     // HTTP 协议配置对象
 	Logger Logger   // Logger 配置对象
-}
-
-// BasePath  获取项目的绝对路径
-func (c *Config) BasePath() (basePath string) {
-	// 获取项目绝对路径，读取配置文件。
-	path, err := exec.LookPath(os.Args[0])
-	if err != nil {
-		log.Fatalln(err)
-	}
-	path, err = filepath.Abs(path)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	basePath = filepath.Dir(path)
-
-	return
 }
 
 // HTTP HTTP协议配置对象
@@ -55,9 +41,25 @@ type DataBase struct {
 
 // Logger 日志对象
 type Logger struct {
+	Level string
 }
 
-// Configure 获取单个配置对象
+// Configure 获取配置对象
 func Configure() *Config {
+	basePath := utils.BasePath()
+
+	// 读取配置文件
+	b, err := ioutil.ReadFile(basePath + "/config.json")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	err = json.Unmarshal(b, &config)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
 	return &config
 }

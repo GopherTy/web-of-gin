@@ -12,7 +12,7 @@ type Router struct {
 }
 
 // Init 注册路由
-func (Router) Init(engine *gin.Engine) {
+func (Router) Route(engine *gin.Engine) {
 	// 控制器
 	var ctl control.Controller
 
