@@ -41,7 +41,8 @@ type DataBase struct {
 
 // Logger 日志对象
 type Logger struct {
-	Level string
+	Level       string // 日志等级：日志等级: debug,info,warn,error,dpanic,panic,fatal
+	Development bool   // 是否开启开发模式
 }
 
 // Configure 获取配置对象
@@ -51,13 +52,13 @@ func Configure() *Config {
 	// 读取配置文件
 	b, err := ioutil.ReadFile(basePath + "/config.json")
 	if err != nil {
-		fmt.Println(err)
+		fmt.Sprintln("Load config object fail: ", err)
 		os.Exit(1)
 	}
 
 	err = json.Unmarshal(b, &config)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Sprintln("Json parse config object fail: ", err)
 		os.Exit(1)
 	}
 

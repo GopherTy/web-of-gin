@@ -36,7 +36,7 @@ func main() {
 	if err != nil {
 		logger.Logger().Fatal(err.Error())
 	}
-	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+	gin.DefaultWriter = io.MultiWriter(os.Stdout, f)
 	engine := gin.Default()
 
 	// 路由功能注册
