@@ -14,7 +14,9 @@
         "KeyFile": ""
     },
     "Logger": {
-        "Level": "info",
-        "Development": false
+        "Level": "debug",
+        "Encoding": "console",
+        "Development": false,
+        "OutputLogs": true
     }
 }

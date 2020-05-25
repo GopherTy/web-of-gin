@@ -48,6 +48,7 @@ func (Register) Regist() {
 	}
 
 	db = engine
+	logger.Logger().Info("Init db success")
 }
 
 // Engine 获取 db 对象

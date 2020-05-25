@@ -3,8 +3,8 @@ package middleware
 import (
 	"net/http"
 	"web-of-gin/db"
+	"web-of-gin/logger"
 	"web-of-gin/model/auth"
-	"web-of-gin/model/users"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,7 +19,7 @@ func UserAuthenticate() gin.HandlerFunc {
 			c.AbortWithError(http.StatusBadGateway, err)
 		}
 		if !exists {
-			db.CreateTables(&users.UserLoginLog{})
+			db.CreateTables(&auth.Role{})
 		}
 
 		exists, err = db.IsTableExist(&auth.Auth{})
@@ -27,9 +27,11 @@ func UserAuthenticate() gin.HandlerFunc {
 			c.AbortWithError(http.StatusBadGateway, err)
 		}
 		if !exists {
-			db.CreateTables(&users.UserLoginLog{})
+			db.CreateTables(&auth.Auth{})
 		}
 
+		db.Sync2(&auth.Role{}, &auth.Auth{})
 		c.Next()
+		logger.Logger().Info("Enable auth middleware")
 	}
 }

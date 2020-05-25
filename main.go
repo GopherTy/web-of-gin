@@ -24,19 +24,15 @@ func main() {
 	cfg := config.Configure()
 	path := utils.BasePath() + "/"
 
-	// 设置 Gin 日志输出
-	if !utils.IsFileOrDirExists(path + "log") {
-		err := os.Mkdir(path+"log", os.ModePerm)
+	// 是否启用 Gin 日志输出
+	if cfg.Logger.OutputLogs {
+		f, err := os.Create(path + "log/gin.log")
 		if err != nil {
 			logger.Logger().Fatal(err.Error())
 		}
+		gin.DefaultWriter = io.MultiWriter(os.Stdout, f)
 	}
 
-	f, err := os.Create(path + "log/gin.log")
-	if err != nil {
-		logger.Logger().Fatal(err.Error())
-	}
-	gin.DefaultWriter = io.MultiWriter(os.Stdout, f)
 	engine := gin.Default()
 
 	// 路由功能注册

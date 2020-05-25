@@ -11,11 +11,10 @@ func (Controller) Test(c *gin.Context) {
 
 // UserMiddlewareTest 用户管理中间件的测试API
 func (Controller) UserMiddlewareTest(c *gin.Context) {
-	result, _ := c.Get("result")
+	c.JSON(200, "user middleware use success")
+}
 
-	if v, ok := result.(string); ok {
-		c.JSON(200, v)
-	} else {
-		c.JSON(200, "key is not exists")
-	}
+// AuthMiddlewareTest 用户管理中间件的测试API
+func (Controller) AuthMiddlewareTest(c *gin.Context) {
+	c.JSON(200, "auth middleware use success")
 }

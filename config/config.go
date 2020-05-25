@@ -43,6 +43,8 @@ type DataBase struct {
 type Logger struct {
 	Level       string // 日志等级：日志等级: debug,info,warn,error,dpanic,panic,fatal
 	Development bool   // 是否开启开发模式
+	Encoding    string // 日志输出格式
+	OutputLogs  bool   // 是否输出日志文件
 }
 
 // Configure 获取配置对象

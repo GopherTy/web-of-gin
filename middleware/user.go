@@ -3,6 +3,7 @@ package middleware
 import (
 	"net/http"
 	"web-of-gin/db"
+	"web-of-gin/logger"
 	"web-of-gin/model/users"
 
 	"github.com/gin-gonic/gin"
@@ -39,8 +40,10 @@ func UserManage() gin.HandlerFunc {
 
 		// before
 
+		db.Sync2(&users.User{}, &users.UserInfo{}, &users.UserLoginLog{})
 		c.Next()
 
 		//after 在中间件调用了处理函数之后，就会在此处调用
+		logger.Logger().Info("Enable user middleware")
 	}
 }

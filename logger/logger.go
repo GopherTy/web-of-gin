@@ -22,7 +22,26 @@ func (Register) Regist() {
 	cfg := config.Configure()
 
 	// 是否输出日志文件
-	logPath := utils.BasePath() + "/log/gin.log"
+	var logPath []string
+	if cfg.Logger.OutputLogs {
+		path := utils.BasePath() + "/log"
+		if !utils.IsFileOrDirExists(path) {
+			err := os.Mkdir(path, os.ModePerm)
+			if err != nil {
+				fmt.Sprintln("Create logs fail: ", err)
+				os.Exit(1)
+			}
+		}
+		_, err := os.Create(path + "/web-server.log")
+		if err != nil {
+			fmt.Sprintln("Create logs fail: ", err)
+			os.Exit(1)
+		}
+
+		logPath = []string{"stdout", path + "/web-server.log"}
+	} else {
+		logPath = []string{"stdout"}
+	}
 
 	encoderConfig := zapcore.EncoderConfig{
 		TimeKey:        "time",
@@ -62,8 +81,8 @@ func (Register) Regist() {
 	zapCfg := zap.Config{
 		Level:            atomicLevel,
 		Development:      cfg.Logger.Development,
-		Encoding:         "json", // json 或 console
-		OutputPaths:      []string{"stdout", logPath},
+		Encoding:         cfg.Logger.Encoding, // json 或 console
+		OutputPaths:      logPath,
 		ErrorOutputPaths: []string{"stderr"},
 		EncoderConfig:    encoderConfig,
 	}
@@ -77,6 +96,7 @@ func (Register) Regist() {
 	defer zapLogger.Sync()
 
 	logger = zapLogger
+	logger.Info("Init logger success")
 }
 
 // Logger 获取 logger 对象
