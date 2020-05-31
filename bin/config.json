@@ -3,6 +3,7 @@
         "Driver": "mysql",
         "Source": "[name]:[passwd]@tcp([url]:[port])/gopherty?charset=utf8",
         "ShowSQL": true,
+        "UserManageDisable": true,
         "MaxOpenConns": 100,
         "MaxIdleConns": 5,
         "Cached": 200

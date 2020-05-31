@@ -17,9 +17,8 @@ func (Router) Route(engine *gin.Engine) {
 	var ctl control.Controller
 
 	// 非用户组
-	engine.GET("/", ctl.TestDispacher.Test)                                                  // 测试接口注册
-	engine.GET("/user", middleware.UserManage(), ctl.TestDispacher.UserMiddlewareTest)       // 启用了用户管理系统中间件，创建对应的表。
-	engine.GET("/auth", middleware.UserAuthenticate(), ctl.TestDispacher.AuthMiddlewareTest) // 启用了用户管理系统中间件，创建对应的表。
+	engine.GET("/", ctl.TestDispacher.Test)                                                         // 测试接口注册
+	engine.GET("/middleware/test", middleware.HelloMiddleware(), ctl.TestDispacher.MiddlewareHello) // test 中间件
 
 	// 用户组
 	r := engine.RouterGroup.Group("/app")

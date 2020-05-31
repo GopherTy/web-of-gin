@@ -31,7 +31,8 @@ type DataBase struct {
 	Driver string // 数据库驱动
 	Source string // 连接字符串
 
-	ShowSQL bool // 是否显示 SQL 语句
+	ShowSQL           bool // 是否显示 SQL 语句
+	UserManageDisable bool // 是否创建用户相关表
 
 	MaxOpenConns int // 数据库连接池数量
 	MaxIdleConns int // 数据库连接最大空闲数
