@@ -8,9 +8,6 @@ import (
 	"web-of-gin/utils"
 )
 
-// config  单例全局配置对象
-var config Config
-
 // Config 全局JSON配置对象
 type Config struct {
 	DB     DataBase // 配置文件数据库对象
@@ -48,8 +45,15 @@ type Logger struct {
 	OutputLogs  bool   // 是否输出日志文件
 }
 
-// Configure 获取配置对象
-func Configure() *Config {
+// config  单例全局配置对象
+var config *Config
+
+// Register 配置对象注册器
+type Register struct {
+}
+
+// Regist 实现 IRegister 接口，以注册获取初始化好的 config 对象。
+func (Register) Regist() {
 	basePath := utils.BasePath()
 
 	// 读取配置文件
@@ -59,11 +63,16 @@ func Configure() *Config {
 		os.Exit(1)
 	}
 
-	err = json.Unmarshal(b, &config)
+	var cfg *Config
+	err = json.Unmarshal(b, cfg)
 	if err != nil {
 		fmt.Sprintln("Json parse config object fail: ", err)
 		os.Exit(1)
 	}
+	config = cfg
+}
 
-	return &config
+// Configure 获取配置对象
+func Configure() *Config {
+	return config
 }

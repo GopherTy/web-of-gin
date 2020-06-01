@@ -53,6 +53,7 @@ func (Register) Regist() {
 	db = engine
 	logger.Logger().Info("Init db success")
 
+	// 是否关闭用户管理
 	if cfg.DB.UserManageDisable {
 		return
 	}

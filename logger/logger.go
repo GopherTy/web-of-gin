@@ -26,7 +26,7 @@ func (Register) Regist() {
 	if cfg.Logger.OutputLogs {
 		path := utils.BasePath() + "/log"
 		if !utils.IsFileOrDirExists(path) {
-			err := os.Mkdir(path, os.ModePerm)
+			err := os.Mkdir(path, os.ModeDir)
 			if err != nil {
 				fmt.Sprintln("Create logs fail: ", err)
 				os.Exit(1)

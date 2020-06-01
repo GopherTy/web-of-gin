@@ -1,6 +1,7 @@
 package initialization
 
 import (
+	"web-of-gin/config"
 	"web-of-gin/db"
 	"web-of-gin/logger"
 )
@@ -14,6 +15,7 @@ type IRegister interface {
 func Init() {
 	// 调用执行注册器
 	registers := []IRegister{
+		config.Register{}, // 配置对象
 		logger.Register{}, // 日志
 		db.Register{},     // 数据库
 	}

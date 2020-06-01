@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"io"
 	"os"
 	"web-of-gin/config"
@@ -20,6 +21,15 @@ func init() {
 
 // 项目入口
 func main() {
+	// 配置项目是否为稳定版
+	var releaseMode bool
+	flag.BoolVar(&releaseMode, "r", false, "set application mode to  release or debug,default is debug")
+	flag.Parse()
+
+	if releaseMode {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	// 配置对象
 	cfg := config.Configure()
 	path := utils.BasePath() + "/"
