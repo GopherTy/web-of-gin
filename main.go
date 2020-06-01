@@ -26,10 +26,6 @@ func main() {
 	flag.BoolVar(&releaseMode, "r", false, "set application mode to  release or debug,default is debug")
 	flag.Parse()
 
-	if releaseMode {
-		gin.SetMode(gin.ReleaseMode)
-	}
-
 	// 配置对象
 	cfg := config.Configure()
 	path := utils.BasePath() + "/"
@@ -48,6 +44,10 @@ func main() {
 	// 路由功能注册
 	var r router.Router
 	r.Route(engine)
+
+	if releaseMode {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	// 验证服务器是否以HTTPS的方式启动
 	if cfg.HTTP.TLS {

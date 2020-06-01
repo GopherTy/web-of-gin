@@ -59,17 +59,17 @@ func (Register) Regist() {
 	// 读取配置文件
 	b, err := ioutil.ReadFile(basePath + "/config.json")
 	if err != nil {
-		fmt.Sprintln("Load config object fail: ", err)
+		fmt.Println("Load config object fail: ", err)
 		os.Exit(1)
 	}
 
-	var cfg *Config
-	err = json.Unmarshal(b, cfg)
+	var cfg Config
+	err = json.Unmarshal(b, &cfg)
 	if err != nil {
-		fmt.Sprintln("Json parse config object fail: ", err)
+		fmt.Println("Json parse config object fail: ", err)
 		os.Exit(1)
 	}
-	config = cfg
+	config = &cfg
 }
 
 // Configure 获取配置对象
