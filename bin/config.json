@@ -1,7 +1,7 @@
 {
     "DB": {
         "Driver": "mysql",
-        "Source": "[name]:[passwd]@tcp([url]:[port])/gopherty?charset=utf8",
+        "Source": "ty:123@tcp(localhost:3306)/gopherty?charset=utf8",
         "ShowSQL": true,
         "UserManageDisable": true,
         "MaxOpenConns": 100,
@@ -18,6 +18,7 @@
         "Level": "debug",
         "Encoding": "console",
         "Development": false,
-        "OutputLogs": true
+        "AppLogsPath": "app.log",
+        "GinLogsPath": "gin.log"
     }
 }
