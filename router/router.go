@@ -21,6 +21,6 @@ func (Router) Route(engine *gin.Engine) {
 	engine.GET("/middleware/test", middleware.HelloMiddleware(), ctl.TestDispacher.MiddlewareHello) // test 中间件
 
 	// 用户组
-	r := engine.RouterGroup.Group("/app")
-	r.GET("/test", ctl.TestDispacher.Test)
+	group := engine.Group("/app")
+	group.GET("/test", ctl.TestDispacher.Test)
 }
