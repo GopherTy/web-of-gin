@@ -64,21 +64,30 @@ func (Register) Regist() {
 		logger.Logger().Fatal(err.Error())
 	}
 	if !exists {
-		db.CreateTables(&users.User{})
+		err = db.CreateTables(&users.User{})
+		if err != nil {
+			logger.Logger().Fatal(err.Error())
+		}
 	}
 	exists, err = db.IsTableExist(&users.UserInfo{})
 	if err != nil {
 		logger.Logger().Fatal(err.Error())
 	}
 	if !exists {
-		db.CreateTables(&users.UserInfo{})
+		err = db.CreateTables(&users.UserInfo{})
+		if err != nil {
+			logger.Logger().Fatal(err.Error())
+		}
 	}
 	exists, err = db.IsTableExist(&users.UserLoginLog{})
 	if err != nil {
 		logger.Logger().Fatal(err.Error())
 	}
 	if !exists {
-		db.CreateTables(&users.UserLoginLog{})
+		err = db.CreateTables(&users.UserLoginLog{})
+		if err != nil {
+			logger.Logger().Fatal(err.Error())
+		}
 	}
 	db.Sync2(&users.User{}, &users.UserInfo{}, &users.UserLoginLog{})
 
@@ -88,14 +97,20 @@ func (Register) Regist() {
 		logger.Logger().Fatal(err.Error())
 	}
 	if !exists {
-		db.CreateTables(&auth.Role{})
+		err = db.CreateTables(&auth.Role{})
+		if err != nil {
+			logger.Logger().Fatal(err.Error())
+		}
 	}
 	exists, err = db.IsTableExist(&auth.Auth{})
 	if err != nil {
 		logger.Logger().Fatal(err.Error())
 	}
 	if !exists {
-		db.CreateTables(&auth.Auth{})
+		err = db.CreateTables(&auth.Auth{})
+		if err != nil {
+			logger.Logger().Fatal(err.Error())
+		}
 	}
 	db.Sync2(&auth.Role{}, &auth.Auth{})
 }
