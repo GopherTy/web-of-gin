@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -75,5 +76,22 @@ func CreatePath(path string) (err error) {
 		return
 	}
 
+	return
+}
+
+// ReadFile 读取文件
+func ReadFile(path string) (b []byte, err error) {
+	if filepath.IsAbs(path) {
+		path = filepath.Clean(path)
+	} else {
+		path, err = filepath.Abs(path)
+		if err != nil {
+			return
+		}
+	}
+	b, err = ioutil.ReadFile(path)
+	if err != nil {
+		return
+	}
 	return
 }

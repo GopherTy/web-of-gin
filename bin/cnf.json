@@ -8,17 +8,17 @@
         "MaxIdleConns": 5,
         "Cached": 200
     },
-    "HTTP": {
-        "TLS": false,
+    "Server": {
         "Address": ":8080",
+        "Release": false,
         "CertFile": "",
-        "KeyFile": ""
+        "KeyFile": "",
+        "LogsPath": ""
     },
     "Logger": {
         "Level": "debug",
         "Encoding": "console",
         "Development": false,
-        "AppLogsPath": "",
-        "GinLogsPath": ""
+        "LogsPath": ""
     }
 }

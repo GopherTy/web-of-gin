@@ -16,5 +16,5 @@
 vendor/
 
 # 自定义
-bin/web-server*
+bin/server*
 log

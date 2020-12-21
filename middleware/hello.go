@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"web-of-gin/logger"
+	"web-of-gin/module/logger"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,11 +10,11 @@ import (
 func HelloMiddleware() func(*gin.Context) {
 	return func(c *gin.Context) {
 		// before use middleware
-		logger.Logger().Info("before ...")
+		logger.Instance().Info("before ...")
 
 		c.Next()
 
 		// after use middleware
-		logger.Logger().Info("after ...")
+		logger.Instance().Info("after ...")
 	}
 }

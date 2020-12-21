@@ -1,12 +1,10 @@
-# Go web
+# Template of Gin
 
-### 此项目为 `Go` 语言搭建的 `web` 模板项目。
+此项目基于 Go 语言中 Gin web框架搭建的模板。
 
-**技术栈**：
+架构：
 
-- 框架：`Gin`
+整个项目结构模块化。内置 `config`,`logger`,`db` 模块，其中 `logger` 为 `zap` 包的 `logger`；`db` 使用 `xorm` ,数据库为
 
-- 数据库：`MySQL`
-- `ORM`：`XORM`
+`MySQL` ; 配置文件支持 `yaml`, `json`,`jsonnet`。默认配置文件格式为 `json`
 
-**项目运行**：项目启动前通过配置文件（`.json` 文件）初始化数据库对象，然后启动 `Gin Web  ` 服务。通过配置文件可以决定启动的是服务类型是否为 `HTTPS` 。

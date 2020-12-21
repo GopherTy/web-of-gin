@@ -4,40 +4,40 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"web-of-gin/config"
+	"web-of-gin/module/configs"
 	"web-of-gin/utils"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-var logger *zap.Logger
-
-// Register 日志注册器
+// Register 注册器
 type Register struct {
 }
 
+var instance *zap.Logger
+
 // Regist 实现 IRegister 接口，以注册获取初始化好的 logger 对象。
 func (Register) Regist() {
-	cnf := config.Configure()
+	cnf := configs.Instance()
 
 	// 是否输出日志文件
 	var logPath []string
-	if cnf.Logger.AppLogsPath != "" {
+	if cnf.Logger.LogsPath != "" {
 		// 创建指定路径
-		err := utils.CreatePath(cnf.Logger.AppLogsPath)
+		err := utils.CreatePath(cnf.Logger.LogsPath)
 		if err != nil {
 			fmt.Println("Init logger fail: ", err)
 			os.Exit(1)
 		}
 
-		_, err = os.Create(cnf.Logger.AppLogsPath)
+		_, err = os.Create(cnf.Logger.LogsPath)
 		if err != nil {
 			fmt.Println("Init logger fail: ", err)
 			os.Exit(1)
 		}
 
-		logPath = []string{"stdout", cnf.Logger.AppLogsPath}
+		logPath = []string{cnf.Logger.LogsPath}
 	} else {
 		logPath = []string{"stdout"}
 	}
@@ -94,16 +94,16 @@ func (Register) Regist() {
 	}
 	defer zapLogger.Sync()
 
-	logger = zapLogger
-	logger.Info("Init logger success")
+	instance = zapLogger
+	instance.Info("Init logger success")
+	return
 }
 
-// Logger 获取 logger 对象
-func Logger() *zap.Logger {
-	return logger
+// Instance 获取默认的 logger 对象
+func Instance() *zap.Logger {
+	if instance == nil {
+		fmt.Println("Register logger module failed.")
+		os.Exit(1)
+	}
+	return instance
 }
-
-// 不使用接口进行初始化，可以在各个对象中定义 Init 函数在 initialization 包中调用。
-// Init 初始化日志对象
-// func Init() {
-// }

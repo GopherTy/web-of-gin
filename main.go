@@ -1,50 +1,38 @@
 package main
 
 import (
-	"flag"
-	"io"
 	"os"
-	"web-of-gin/config"
-	"web-of-gin/initialization"
-	"web-of-gin/logger"
+
+	_ "web-of-gin/init"
+	"web-of-gin/module/configs"
+	"web-of-gin/module/logger"
 	"web-of-gin/router"
 	"web-of-gin/utils"
 
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 )
-
-var releaseMode bool
-
-// 应用对象的初始化操作
-func init() {
-	flag.BoolVar(&releaseMode, "r", false, "set application mode to release,default value is false. example: -r or -r=true")
-	flag.Parse()
-
-	initialization.Init()
-}
 
 // 项目入口
 func main() {
 	// 配置对象
-	cnf := config.Configure()
+	cnf := configs.Instance()
 
 	// 是否启用 Gin 日志输出
-	if cnf.Logger.GinLogsPath != "" {
-		err := utils.CreatePath(cnf.Logger.GinLogsPath)
+	if cnf.Server.LogsPath != "" {
+		err := utils.CreatePath(cnf.Server.LogsPath)
 		if err != nil {
-			logger.Logger().Fatal(err.Error())
+			logger.Instance().Fatal(err.Error())
 		}
 
-		f, err := os.Create(cnf.Logger.GinLogsPath)
+		f, err := os.Create(cnf.Server.LogsPath)
 		if err != nil {
-			logger.Logger().Fatal(err.Error())
+			logger.Instance().Fatal(err.Error())
 		}
-		gin.DefaultWriter = io.MultiWriter(os.Stdout, f)
+		gin.DefaultWriter = f
 	}
 
 	// 配置项目是否为稳定版,SetMode函数应该在gin.Default之前调用。
-	if releaseMode {
+	if cnf.Server.Release {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	engine := gin.Default()
@@ -54,9 +42,9 @@ func main() {
 	r.Route(engine)
 
 	// 验证服务器是否以HTTPS的方式启动
-	if cnf.HTTP.TLS {
-		engine.RunTLS(cnf.HTTP.Address, cnf.HTTP.CertFile, cnf.HTTP.KeyFile)
+	if cnf.Server.CertFile != "" && cnf.Server.KeyFile != "" {
+		engine.RunTLS(cnf.Server.Address, cnf.Server.CertFile, cnf.Server.KeyFile)
 	} else {
-		engine.Run(cnf.HTTP.Address)
+		engine.Run(cnf.Server.Address)
 	}
 }
